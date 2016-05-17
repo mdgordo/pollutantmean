@@ -4,6 +4,7 @@ R file as exercise to week 2 homework assignment for JHU R Programming coursera 
 ##works for id<-vector length 1
 
      pollutantmean<-function(directory,pollutant="sulfate",id=1:332){
+         setwd("/Users/mdgordo/Desktop/coursera/specdata2")
          setwd(directory)
          sitefilename<-function(id){
                  if (id<10) {
