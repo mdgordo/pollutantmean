@@ -52,3 +52,30 @@ R file as exercise to week 2 homework assignment for JHU R Programming coursera 
         colnames(baseframe)<-c("id","nobs")
         print(as.data.frame(baseframe))
        }
+
+## correlation between sulfate and nitrate pollution for all files that meet a certain threshold of complete cases
+
+       corr<-function(directory, threshold=0){
+        cc<-complete(directory)
+        thresh<-cc[cc$nobs>threshold,]
+        id<-thresh$id
+        if(length(id)==0){
+                print(0)} else{
+        sitefilenames<-function(id){
+                ifelse(id<10,paste(as.character(0),as.character(0),as.character(id),".csv",
+                                   sep=""),ifelse(id<100,paste(as.character(0),as.character(id),".csv"
+                                                               ,sep=""),paste(as.character(id),".csv",sep="")))
+        }
+        
+        basefile<-sitefilenames(id[1])
+        basedata<-read.csv(basefile)
+        corr<-cor(basedata[,2],basedata[,3],"complete.obs")
+        for(i in id[-1]){
+                allfiles<-sitefilenames(i)
+                alldata<-read.csv(allfiles)
+                allcorr<-cor(alldata[,2],alldata[,3],"na.or.complete")
+                corr<-c(corr,allcorr)
+        }
+        print(corr)
+        }
+       }
